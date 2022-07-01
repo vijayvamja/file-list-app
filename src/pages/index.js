@@ -38,7 +38,7 @@ function Home({ dir, files = [] }) {
 
 export default Home;
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const dir = "/Users/vijay/Downloads";
   let files = [];
 
@@ -49,7 +49,7 @@ export const getServerSideProps = async () => {
         if (dirent.isDirectory()) {
           return readDir(`${currentPath}/${name}`);
         }
-        const state = await fs.stat(dir + "/" + name);
+        const state = await fs.stat(currentPath + "/" + name);
         files.push({
           name: name,
           time: state.mtime.getTime(),
