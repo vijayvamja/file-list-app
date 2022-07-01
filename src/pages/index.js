@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
-import Table from "../Components/Table";
+import Table from "../components/Table";
 
 const columns = [
   {
@@ -15,7 +15,7 @@ const columns = [
   },
 ];
 
-function Home({ files = [] }) {
+function Home({ dir, files = [] }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -25,7 +25,12 @@ function Home({ files = [] }) {
       </Head>
 
       <main className={styles.main}>
-        <Table columns={columns} data={files} />
+        <h1>Showing files for: {dir}</h1>
+        {files.length > 0 ? (
+          <Table columns={columns} data={files} />
+        ) : (
+          <span>No file modified in last 7 days</span>
+        )}
       </main>
     </div>
   );
@@ -83,6 +88,7 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
+      dir,
       files: JSON.parse(JSON.stringify(files)),
     },
   };
