@@ -39,7 +39,7 @@ function Home({ dir, files = [] }) {
 export default Home;
 
 export const getStaticProps = async () => {
-  const dir = "/Users/vijay/Downloads";
+  const dir = "/home";
   let files = [];
 
   const listAllFilesAndDirs = async (items, currentPath) => {
