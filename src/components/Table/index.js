@@ -5,10 +5,10 @@ import Tooltip from "../Tooltip";
 
 const Table = ({ columns, data = [] }) => {
   return (
-    <div>
+    <div className={styles.fileList}>
       <table className={styles.table}>
-        <thead>
-          <tr>
+        <thead className={styles.thead}>
+          <tr className={styles.headingTr}>
             {columns.map((column) => (
               <th key={column.accessor} className={styles.th}>
                 {column.title}
@@ -16,7 +16,7 @@ const Table = ({ columns, data = [] }) => {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className={styles.tbody}>
           {data.map((file) => (
             <tr key={file.path}>
               {columns.map((column) => (
