@@ -1,16 +1,19 @@
-import fs from 'fs/promises';
-import Head from 'next/head'
-import styles from '../styles/Home.module.scss'
-import Table from '../Components/Table';
+import fs from "fs/promises";
+import Head from "next/head";
+import styles from "../styles/Home.module.scss";
+import Table from "../Components/Table";
 
-const columns = [{
-  title: "File Name",
-  accessor: "name",
-  tooltipAccessor: "time"
-}, {
-  title: "File Path",
-  accessor: "path"
-}];
+const columns = [
+  {
+    title: "File Name",
+    accessor: "name",
+    tooltipAccessor: "time",
+  },
+  {
+    title: "File Path",
+    accessor: "path",
+  },
+];
 
 function Home({ files = [] }) {
   return (
@@ -25,13 +28,13 @@ function Home({ files = [] }) {
         <Table columns={columns} data={files} />
       </main>
     </div>
-  )
+  );
 }
 
 export default Home;
 
 export const getServerSideProps = async () => {
-  const dir = '/Users/vijay/Downloads';
+  const dir = "/Users/vijay/Downloads";
   let files = [];
 
   const listAllFilesAndDirs = async (items, currentPath) => {
@@ -41,36 +44,39 @@ export const getServerSideProps = async () => {
         if (dirent.isDirectory()) {
           return readDir(`${currentPath}/${name}`);
         }
-        const state = await fs.stat(dir + '/' + name);
+        const state = await fs.stat(dir + "/" + name);
         files.push({
           name: name,
           time: state.mtime.getTime(),
           path: `${currentPath}/${name}`,
         });
-      })
-    )
+      }),
+    );
     return files;
-  }
+  };
 
   const readDir = async (path) => {
     const items = await fs.readdir(path, {
       withFileTypes: true,
     });
     await listAllFilesAndDirs(items, path);
-  }
+  };
 
   await readDir(dir);
 
   const currentDate = new Date();
   const sevenDaysAgoTimeStamp = currentDate.setDate(currentDate.getDate() - 7);
 
-  files = files.filter(file => {
+  files = files.filter((file) => {
     const modifiedAt = new Date(file.time).getTime();
     return modifiedAt >= sevenDaysAgoTimeStamp;
   });
 
-  files = files.map(file => {
-    const formattedDateTime = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full', timeStyle: 'medium' }).format(file.time);
+  files = files.map((file) => {
+    const formattedDateTime = new Intl.DateTimeFormat("en-GB", {
+      dateStyle: "full",
+      timeStyle: "medium",
+    }).format(file.time);
     file.time = formattedDateTime;
     return file;
   });
@@ -78,6 +84,6 @@ export const getServerSideProps = async () => {
   return {
     props: {
       files: JSON.parse(JSON.stringify(files)),
-    }
+    },
   };
 };

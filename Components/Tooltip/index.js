@@ -1,4 +1,4 @@
-import styles from './style.module.scss';
+import styles from "./style.module.scss";
 
 const Tooltip = ({ children, title }) => {
   return (
@@ -6,6 +6,6 @@ const Tooltip = ({ children, title }) => {
       {children}
     </div>
   );
-}
+};
 
 export default Tooltip;
