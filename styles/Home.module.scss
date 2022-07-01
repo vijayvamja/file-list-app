@@ -114,3 +114,12 @@
     flex-direction: column;
   }
 }
+
+.tooltip {
+  display: none;
+  color: red;
+  margin-left: 28px;
+  margin-top: 15px;
+  position: absolute;
+  z-index: 1000;
+}
